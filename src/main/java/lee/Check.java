@@ -3,6 +3,7 @@ package lee;
 import lee.domain.Record;
 import lee.domain.User;
 import org.omg.CosNaming.BindingIterator;
+import utils.CheckUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,15 +14,23 @@ import java.util.List;
  */
 public class Check {
 
-	public static void test(){
+	public static boolean joinCheck() {
 		List<Record> thisDayRecords = new ArrayList<>();
 		int thisDayJoinNum = thisDayRecords.size();
-		init();
-
-
+		if (!CheckUtil.isPositiveForInt(thisDayJoinNum)) {
+			//
+			init();
+			return true;
+		}
+		User user = User.queryThisDayData();
+		Integer surplusNum = user.getSurplusNum();
+		if (CheckUtil.isPositiveForInt(thisDayJoinNum)){
+			return true;
+		}
+		return false;
 	}
 
-	public static void init(){
+	public static void init() {
 		User.insert();
 	}
 
